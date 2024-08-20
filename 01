@@ -1,0 +1,29 @@
+FIRST_VAR_CODE = ord("A")
+LAST_VAR_CODE = ord("Z")
+VAR_RANGE = LAST_VAR_CODE - FIRST_VAR_CODE + 1
+
+def ceaser_shift(user_input, shift_key):
+    encrypted = "" 
+
+    for var in user_input.upper():
+        if var.isalpha():
+            var_code = ord(var)
+            new_var_code = var_code + shift_key
+        
+            if new_var_code > LAST_VAR_CODE:
+                new_var_code -= VAR_RANGE
+                
+            if new_var_code < FIRST_VAR_CODE:
+                new_var_code += VAR_RANGE
+        
+            new_var = chr(new_var_code)
+            encrypted += new_var
+        else:
+            encrypted += var
+    
+    print(encrypted)
+
+user_input = input("Message to encrypt: ")
+shift_key = int(input("Input the shift key (integer): "))
+
+ceaser_shift(user_input, shift_key)
