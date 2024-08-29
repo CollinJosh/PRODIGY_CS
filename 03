@@ -1,0 +1,49 @@
+import string
+
+password = input("Enter your Password: ")
+
+upper_case = any([1 if c in string.ascii_uppercase else 0 for c in password])
+lower_case = any([1 if c in string.ascii_lowercase else 0 for c in password])
+digits = any([1 if c in string.punctuation else 0 for c in password])
+special = any([1 if c in string.digits else 0 for c in password])
+
+characters = [upper_case, lower_case, special, digits]
+length = len(password)
+
+score = 0
+
+with open('Passwords.txt', 'r') as f:
+    #Here password.txt is a reference list with over 10,000 common passwords
+    Passwords = f.read().splitlines()
+
+if password in Passwords:
+    #if your password is on the common passwords list, then it can easily be cracked with dictionary attack
+    print("Your password is easy to crack. Score: 0/10")
+    exit()
+    
+if length > 8:
+    score += 1
+if length > 10:
+    score += 2
+if length > 15:
+    score += 3
+
+print(f"Password length is {str(length)}, adding {str(score)} points!")
+
+if sum(characters) > 1:
+    score += 1
+if sum(characters) > 2:
+    score += 1
+if sum(characters) > 3:
+    score += 2
+
+print(f"Password has {str(sum(characters))} different character types, adding {str(sum(characters) - 1)} points!")
+
+if score < 4:
+    print(f"Password is weak! Score: {str(score)}/10")
+elif score == 4:
+    print(f"Password is Ok! Score: {str(score)}/10")
+elif 4 < score < 6:
+    print(f"Password is Good! Score: {str(score)}/10")
+elif score > 6:
+    print(f"Password is Strong! Score: {str(score)}/10")
